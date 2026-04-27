@@ -41,6 +41,7 @@ cd scansnap-to-clipboard
 - ScanSnap Home は連携アプリケーションを `NSWorkspace.launchApplicationAtURL:options:configuration:error:` の `NSWorkspaceLaunchConfigurationArguments` 経由で起動するため、JPEG のパスは **argv** で渡ってきます（`on open` の Apple Event ではありません）。本アプリはそのパスを `osascript` 経由で `read ... as JPEG picture` し、`set the clipboard to ...` で画像としてクリップボードへセットします。
 - バンドルは中身が小さなシェルスクリプトの `.app`（`LSUIElement = true` で Dock アイコンも出さない）。
 - 複数ファイルが渡された場合は最後の 1 枚をコピーします。
+- クリップボードへのコピーに成功したら、ScanSnap が保存先（既定では `~/Documents/`）に書き出した元 JPEG を削除します。コピーに失敗した場合は安全のため残します。
 - 完了時に macOS の通知センターへ通知を出します。
 - 起動ログは `~/Library/Logs/ScanSnapToClipboard.log` に追記されるので、うまく動かない場合はそこを確認してください。
 

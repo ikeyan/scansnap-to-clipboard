@@ -38,6 +38,17 @@ esc=$(printf '%s' "$input" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
 if /usr/bin/osascript -e "set the clipboard to (read (POSIX file \"$esc\") as JPEG picture)" >>"$LOG" 2>&1; then
 	echo "copied: $input" >>"$LOG"
+	# クリップボードコピーに成功したら、渡された全ファイルを削除する。
+	# 失敗時は何も消さない (ScanSnap が再スキャンせずに済むよう原本を残す)。
+	for a in "$@"; do
+		if [ -f "$a" ]; then
+			if rm -f -- "$a" 2>>"$LOG"; then
+				echo "deleted: $a" >>"$LOG"
+			else
+				echo "delete failed: $a" >>"$LOG"
+			fi
+		fi
+	done
 	notify "クリップボードにコピーしました"
 else
 	echo "copy failed: $input" >>"$LOG"
