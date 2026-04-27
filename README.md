@@ -45,6 +45,10 @@ cd scansnap-to-clipboard
 - 完了時に macOS の通知センターへ通知を出します。
 - 起動ログは `~/Library/Logs/ScanSnapToClipboard.log` に追記されるので、うまく動かない場合はそこを確認してください。
 
+## テスト
+
+`./tests/run-tests.sh` を実行すると、ビルド済みバイナリを ScanSnap と同じ呼び方 (argv 渡し) で叩き、クリップボードへのコピーとファイル削除の挙動を検証します。作業ディレクトリは `mktemp -d -t ...` で `$TMPDIR` 配下に切るため `/tmp` は触りません。クリップボードの初期内容に依存しないように、状態を確認するテストでは事前に sentinel 文字列をセットしてから比較します。
+
 ## ライセンス
 
 MIT License
